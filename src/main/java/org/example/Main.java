@@ -4,5 +4,7 @@ public class Main {
         new App().run();
         System.out.println("ddddd");
         System.out.println("asaass");
+        System.out.println("asaass");
+        System.out.println("asaass");
     }
 }
