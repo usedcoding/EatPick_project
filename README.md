@@ -1,1 +1,1 @@
-# EatPick_project
+Eat Pick 프로젝트 시작
