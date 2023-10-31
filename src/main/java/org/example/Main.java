@@ -1,10 +1,9 @@
 package org.example;
+
 public class Main {
     public static void main(String[] args) {
+        Container.init();
         new App().run();
-        System.out.println("ddddd");
-        System.out.println("asaass");
-        System.out.println("asaass");
-        System.out.println("asaass");
+        Container.close();
     }
 }

@@ -1,1 +1,1 @@
-# EatPick_project
+Eea Pick 프로젝트
