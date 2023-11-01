@@ -40,6 +40,9 @@ public class App {
                     case "게시글 작성":
                         articleController.write();
                         break;
+                    case "나의 게시글":
+                        articleController.myPost();
+                        break;
                 }
             }
         }
