@@ -10,9 +10,9 @@ public class MemberRepository {
     List<Member> members = new ArrayList<>();
 
     public MemberRepository() {
-        Member manager = new Member(0, "관리자", 111, Util.nowDateTime());
+        Member manager = new Member(0, "관리자", "111", Util.nowDateTime());
         members.add(manager);
-        Member tester = new Member(0, "테스터", 111, Util.nowDateTime());
+        Member tester = new Member(0, "테스터", "111", Util.nowDateTime());
         members.add(tester);
     }
     public Member getFindByNickname(String nickname) {
@@ -23,5 +23,10 @@ public class MemberRepository {
             }
         }
         return null;
+    }
+
+    public void join(int id, String nickname, String password, String regDate) {
+        Member member = new Member(id, nickname, password, regDate);
+        members.add(member);
     }
 }

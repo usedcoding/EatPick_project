@@ -26,4 +26,13 @@ public class Container {
     public static void close() {
         sc.close();
     }
+
+    public static void meneList1() {
+        System.out.println("1.로그인 / 2.회원가입 / 3.종료");
+    }
+
+    public static void meneList2() {
+        System.out.println("1.게시글 작성 / 2.내가 쓴 게시글 보기 / 3.전체 게시글 보기 / 4.카테고리 검색 (탄수화물ㆍ육류ㆍ어류ㆍ식물성ㆍ영양제ㆍ보충제ㆍ기타) / 5.음식 검색 / 6.브랜드 검색 / 7.로그아웃 / 8.종료");
+    }
+
 }
