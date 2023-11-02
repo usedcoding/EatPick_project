@@ -1,17 +1,30 @@
 package org.example;
 
 import org.example.article.controller.ArticleController;
+import org.example.db.DBConnection;
 import org.example.member.controller.MemberController;
 import org.example.member.service.MemberService;
 import org.example.system.controller.SystemController;
 
 public class App {
-    SystemController systemController = new SystemController();
-    MemberController memberController = new MemberController();
-    ArticleController articleController = new ArticleController();
+    public App () {
+        DBConnection.DB_NAME = "proj1";
+        DBConnection.DB_USER = "root";
+        DBConnection.DB_PASSWORD = "";
+        DBConnection.DB_PORT = 3306;
+
+        Container.getDBconnection().connect();
+    }
+
     public void run() {
+        SystemController systemController = new SystemController();
+        MemberController memberController = new MemberController();
+        ArticleController articleController = new ArticleController();
+
         System.out.println("== Eat Pick 시작 ==");
+
         Container.meneList1();
+
         while (true) {
             System.out.printf("명령어) ");
             String command = Container.getSc().nextLine();
@@ -37,11 +50,20 @@ public class App {
                     case "로그아웃":
                         memberController.logout();
                         break;
-                    case "게시글 작성":
+                    case "게시글 등록":
                         articleController.write();
+                        break;
+                    case "게시글 수정":
+                        articleController.modify();
+                        break;
+                    case "게시글 삭제":
+                        articleController.remove();
                         break;
                     case "나의 게시글":
                         articleController.myPost();
+                        break;
+                    case "전체 게시글":
+                        articleController.allPost();
                         break;
                 }
             }

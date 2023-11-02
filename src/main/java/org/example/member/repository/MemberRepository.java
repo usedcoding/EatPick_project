@@ -1,21 +1,31 @@
 package org.example.member.repository;
 
+import org.example.Container;
+import org.example.db.DBConnection;
 import org.example.member.entity.Member;
 import org.example.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MemberRepository {
-    List<Member> members = new ArrayList<>();
+    private DBConnection dbConnection;
 
-    public MemberRepository() {
-        Member manager = new Member(0, "관리자", "111", Util.nowDateTime());
-        members.add(manager);
-        Member tester = new Member(0, "테스터", "111", Util.nowDateTime());
-        members.add(tester);
+    public MemberRepository () {
+        dbConnection = Container.getDBconnection();
     }
+
     public Member getFindByNickname(String nickname) {
+        List<Member> members = new ArrayList<>();
+
+        String sql = "SELECT * FROM `member`";
+        List<Map<String, Object>> rows = dbConnection.selectRows(sql);
+
+        for (Map<String, Object> row : rows) {
+            members.add(new Member(row));
+        }
+
         for (int i = 0; i < members.size(); i++) {
             Member member = members.get(i);
             if (member.getNickname().equals(nickname)) {
@@ -25,8 +35,13 @@ public class MemberRepository {
         return null;
     }
 
-    public void join(int id, String nickname, String password, String regDate) {
-        Member member = new Member(id, nickname, password, regDate);
-        members.add(member);
+    public void join(String nickname, String password) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("INSERT INTO `member` "));
+        sb.append(String.format("SET nickname = '%s', ", nickname));
+        sb.append(String.format("`password` = '%s', ", password));
+        sb.append(String.format("regDate = now() "));
+
+        int id = dbConnection.insert(sb.toString());
     }
 }

@@ -9,7 +9,7 @@ public class MemberService {
         return this.memberRepository.getFindByNickname(nickname);
     }
 
-    public void join(int id, String nickname, String password, String regDate) {
-        this.memberRepository.join(id, nickname, password, regDate);
+    public void join(String nickname, String password) {
+        this.memberRepository.join(nickname, password);
     }
 }
