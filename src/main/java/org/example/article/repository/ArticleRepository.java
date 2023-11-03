@@ -16,9 +16,8 @@ public class ArticleRepository {
     }
 
     List<Article> articles = new ArrayList<>();
-    long postId;
 
-    public void write(String category, String foodName, String brandName, long price, long weight, long scope, String review, String writer) {
+    public void write(String category, String foodName, String brandName, int price, int weight, int scope, String review, String writer) {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("INSERT INTO article "));
         sb.append(String.format("SET category = '%s', ", category));
@@ -65,5 +64,50 @@ public class ArticleRepository {
         }
 
         return articles;
+    }
+    public List<Article> getArticleListCategory() {
+        List<Article> articles = new ArrayList<>();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SELECT * FROM article "));
+        sb.append(String.format("WHERE category = '%s' ", Container.getLoginedMember().getNickname()));
+
+        List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
+
+        for (Map<String, Object> row : rows) {
+            articles.add(new Article(row));
+        }
+
+        return articles;
+    }
+    public void remove(Article article) {
+        int id = article.getId();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("DELETE FROM article "));
+        sb.append(String.format("WHERE id = %s", id));
+
+        dbConnection.delete(sb.toString());
+    }
+
+
+    public void modify(Article article, String category, String foodName, String brandName, int price, int weight, int scope, String review) {
+        int id = article.getId();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("UPDATE article "));
+        sb.append(String.format("SET category = '%s', ", category));
+        sb.append(String.format("foodName = '%s', ", foodName));
+        sb.append(String.format("brandName = '%s', ", brandName));
+        sb.append(String.format("price = %d, ", price));
+        sb.append(String.format("weight = %d, ", weight));
+        sb.append(String.format("scope = %d, ", scope));
+        sb.append(String.format("review = '%s', ", review));
+        sb.append(String.format("regDate = now() "));
+
+        dbConnection.update(sb.toString());
     }
 }

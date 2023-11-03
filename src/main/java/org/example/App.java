@@ -65,6 +65,9 @@ public class App {
                     case "전체 게시글":
                         articleController.allPost();
                         break;
+                    case "카테고리 검색":
+                        articleController.categoryPost();
+                        break;
                 }
             }
         }

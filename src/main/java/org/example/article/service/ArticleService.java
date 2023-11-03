@@ -18,4 +18,16 @@ public class ArticleService {
     public List<Article> getArticleListMy() {
         return this.articleRepository.getArticleListMy();
     }
+    public List<Article> getArticleListCategory() {
+        return this.articleRepository.getArticleListCategory();
+    }
+
+    public void remove(Article article) {
+        this.articleRepository.remove(article);
+    }
+
+
+    public void modify(Article article, String category, String foodName, String brandName, int price, int weight, int scope, String review) {
+        this.articleRepository.modify(article, category, foodName, brandName, price, weight, scope, review);
+    }
 }
