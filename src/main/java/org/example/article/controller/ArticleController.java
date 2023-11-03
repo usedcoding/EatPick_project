@@ -14,9 +14,9 @@ public class ArticleController {
         String category;
         String foodName;
         String brandName;
-        long price;
-        long weight;
-        long scope;
+        int price;
+        int weight;
+        int scope;
         String review;
 
         System.out.println("\n1.카테고리를 입력해 주세요. (탄수화물 / 육류 / 어류 / 식물성 / 영양제 / 보충제 / 기타)");
@@ -100,20 +100,36 @@ public class ArticleController {
         Container.meneList2();
     }
     public void modify() {
-        System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰");
-        System.out.println("=".repeat(60));
-        this.articleService.myPost();
+        myPostList();
 
         System.out.println("\n수정할 번호를 입력해 주세요.");
+        String inputNum = Container.getSc().nextLine().trim();
+
     }
     public void remove() {
+
     }
     public void myPost() {
-        System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰");
-        System.out.println("=".repeat(60));
-        this.articleService.myPost();
+        List<Article> articles = articleService.getArticleListMy();
 
-        Container.meneList2();
+        if (articles.size() == 0) {
+            System.out.println("\n게시글이 존재하지 않습니다.");
+
+            Container.meneList2();
+        }
+        else {
+            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰");
+            System.out.println("=".repeat(70));
+
+            for (int i = 0; i < articles.size(); i++) {
+                Article article = articles.get(i);
+                if (Container.getLoginedMember().getNickname().equals(article.getWriter())) {
+                    System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s\n", article.getId(), article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview());
+                }
+            }
+
+            Container.meneList2();
+        }
     }
     public void allPost() {
         List<Article> articles = articleService.getArticleListAll();
@@ -125,15 +141,35 @@ public class ArticleController {
         }
         else {
             System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰 / 작성자");
-            System.out.println("=".repeat(60));
+            System.out.println("=".repeat(70));
 
             for (int i = 0; i < articles.size(); i++) {
                 Article article = articles.get(i);
-                System.out.printf("%d / %s / %s / %s / %d / %d / %d / %s / %s", article.getId(), article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", article.getId(), article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
             }
 
             Container.meneList2();
         }
+    }
 
+    public void myPostList() {
+        List<Article> articles = articleService.getArticleListMy();
+
+        if (articles.size() == 0) {
+            System.out.println("\n게시글이 존재하지 않습니다.");
+
+            Container.meneList2();
+        }
+        else {
+            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰");
+            System.out.println("=".repeat(70));
+
+            for (int i = 0; i < articles.size(); i++) {
+                Article article = articles.get(i);
+                if (Container.getLoginedMember().getNickname().equals(article.getWriter())) {
+                    System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s\n", article.getId(), article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview());
+                }
+            }
+        }
     }
 }

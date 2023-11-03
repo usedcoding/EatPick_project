@@ -34,32 +34,29 @@ public class ArticleRepository {
         int id = dbConnection.insert(sb.toString());
     }
 
-    public void myPost() {
-        postId = 1;
-        for (int i = 0; i < articles.size(); i++) {
-            Article article = articles.get(i);
-            if (Container.getLoginedMember().getNickname().equals(article.getWriter())) {
-                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s\n", postId, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview());
-                postId++;
-            }
-        }
-    }
-
-    public void allPost() {
-        postId = 1;
-        for (int i = 0; i < articles.size(); i++) {
-            Article article = articles.get(i);
-            System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postId, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
-            postId++;
-        }
-    }
-
     public List<Article> getArticleListAll() {
         List<Article> articles = new ArrayList<>();
 
         StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("SELECT * FROM article"));
+
+        List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
+
+        for (Map<String, Object> row : rows) {
+            articles.add(new Article(row));
+        }
+
+        return articles;
+    }
+
+    public List<Article> getArticleListMy() {
+        List<Article> articles = new ArrayList<>();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SELECT * FROM article "));
+        sb.append(String.format("WHERE writer = '%s' ", Container.getLoginedMember().getNickname()));
 
         List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
 
