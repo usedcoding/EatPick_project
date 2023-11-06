@@ -65,13 +65,13 @@ public class ArticleRepository {
 
         return articles;
     }
-    public List<Article> getArticleListCategory() {
+    public List<Article> getArticleListCategory(String searchCategory) {
         List<Article> articles = new ArrayList<>();
 
         StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("SELECT * FROM article "));
-        sb.append(String.format("WHERE category = '%s' ", Container.getLoginedMember().getNickname()));
+        sb.append(String.format("WHERE category = '%s' ", searchCategory));
 
         List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
 
@@ -92,7 +92,6 @@ public class ArticleRepository {
         dbConnection.delete(sb.toString());
     }
 
-
     public void modify(Article article, String category, String foodName, String brandName, int price, int weight, int scope, String review) {
         int id = article.getId();
 
@@ -107,6 +106,7 @@ public class ArticleRepository {
         sb.append(String.format("scope = %d, ", scope));
         sb.append(String.format("review = '%s', ", review));
         sb.append(String.format("regDate = now() "));
+        sb.append(String.format("WHERE id = %s", id));
 
         dbConnection.update(sb.toString());
     }

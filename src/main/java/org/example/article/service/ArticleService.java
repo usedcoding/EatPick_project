@@ -18,8 +18,8 @@ public class ArticleService {
     public List<Article> getArticleListMy() {
         return this.articleRepository.getArticleListMy();
     }
-    public List<Article> getArticleListCategory() {
-        return this.articleRepository.getArticleListCategory();
+    public List<Article> getArticleListCategory(String searchCategory) {
+        return this.articleRepository.getArticleListCategory(searchCategory);
     }
 
     public void remove(Article article) {

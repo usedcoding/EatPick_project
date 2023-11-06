@@ -68,6 +68,12 @@ public class App {
                     case "카테고리 검색":
                         articleController.categoryPost();
                         break;
+                    case "음식명 검색":
+                        articleController.foodNamePost();
+                        break;
+                    case "브랜드명 검색":
+                        articleController.brandNamePost();
+                        break;
                 }
             }
         }

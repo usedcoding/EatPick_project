@@ -7,6 +7,7 @@ import org.example.article.entity.Article;
 import org.example.article.service.ArticleService;
 import org.example.util.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleController {
@@ -54,7 +55,7 @@ public class ArticleController {
         System.out.println("\n4.가격을 입력해 주세요.");
         while (true) {
             try {
-                price = Integer.parseInt(Container.getSc().nextLine());
+                price = Integer.parseInt(Container.getSc().nextLine().trim());
             }
             catch (Exception e) {
                 System.out.println("\n입력된 값은 숫자가 아닙니다. 다시 입력해 주세요.");
@@ -66,7 +67,7 @@ public class ArticleController {
         System.out.println("\n5.중량을 입력해 주세요.");
         while (true) {
             try {
-                weight = Integer.parseInt(Container.getSc().nextLine());
+                weight = Integer.parseInt(Container.getSc().nextLine().trim());
             }
             catch (Exception e) {
                 System.out.println("\n입력된 값은 숫자가 아닙니다. 다시 입력해 주세요.");
@@ -78,7 +79,7 @@ public class ArticleController {
         System.out.println("\n6.별점을 입력해 주세요.\n5점 만점(1 / 2 / 3 / 4 / 5)");
         while (true) {
             try {
-                scope = Integer.parseInt(Container.getSc().nextLine());
+                scope = Integer.parseInt(Container.getSc().nextLine().trim());
                 if (scope > 5 || scope == 0) {
                     System.out.println("\n입력된 값은 정해진 값이 아닙니다. 다시 입력해 주세요.");
                     continue;
@@ -110,10 +111,8 @@ public class ArticleController {
 
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
-            if (Container.getLoginedMember().getNickname().equals(article.getWriter())) {
-                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview());
-                postNum++;
-            }
+            System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview());
+            postNum++;
         }
     }
     public void modify() {
@@ -125,6 +124,8 @@ public class ArticleController {
             System.out.println("\n게시글이 존재하지 않습니다.");
 
             Container.meneList2();
+
+            return;
         }
         else {
             myPostList();
@@ -193,7 +194,7 @@ public class ArticleController {
         while (true) {
             try {
                 System.out.printf("기존 내용 : " + article.getPrice() + " => ");
-                price = Integer.parseInt(Container.getSc().nextLine());
+                price = Integer.parseInt(Container.getSc().nextLine().trim());
             }
             catch (Exception e) {
                 System.out.println("\n입력된 값은 숫자가 아닙니다. 다시 입력해 주세요.");
@@ -206,7 +207,7 @@ public class ArticleController {
         while (true) {
             try {
                 System.out.printf("기존 내용 : " + article.getWeight() + " => ");
-                weight = Integer.parseInt(Container.getSc().nextLine());
+                weight = Integer.parseInt(Container.getSc().nextLine().trim());
             }
             catch (Exception e) {
                 System.out.println("\n입력된 값은 숫자가 아닙니다. 다시 입력해 주세요.");
@@ -219,7 +220,7 @@ public class ArticleController {
         while (true) {
             try {
                 System.out.printf("기존 내용 : " + article.getScope() + " => ");
-                scope = Integer.parseInt(Container.getSc().nextLine());
+                scope = Integer.parseInt(Container.getSc().nextLine().trim());
                 if (scope > 5 || scope == 0) {
                     System.out.println("\n입력된 값은 정해진 값이 아닙니다. 다시 입력해 주세요.");
                     continue;
@@ -251,6 +252,8 @@ public class ArticleController {
             System.out.println("\n게시글이 존재하지 않습니다.");
 
             Container.meneList2();
+
+            return;
         }
         else {
             myPostList();
@@ -316,18 +319,36 @@ public class ArticleController {
             Container.meneList2();
         }
     }
-
     public void categoryPost() {
-        //여기부터 시작
-        //수정부분도 전체가 수정되는 것 같은데 오류 확인해봐야함
-        System.out.println("검색하실 카테고리를 입력해 주세요.");
+        System.out.println("\n검색하실 카테고리를 입력해 주세요. (탄수화물 / 육류 / 어류 / 식물성 / 영양제 / 보충제 / 기타)");
+        String searchCategory = Container.getSc().nextLine().trim();
+        switch (searchCategory) {
+            case "탄수화물":
+                break;
+            case "육류":
+                break;
+            case "어류":
+                break;
+            case "식물성":
+                break;
+            case "영양제":
+                break;
+            case "보충제":
+                break;
+            case "기타":
+                break;
+            default:
+                System.out.println("\n입력하신 카테고리는 존재하지 않습니다.");
+                Container.meneList2();
+                return;
+        }
 
-        List<Article> articles = articleService.getArticleListCategory();
+        List<Article> articles = articleService.getArticleListCategory(searchCategory);
 
         int postNum = 1;
 
         if (articles.size() == 0) {
-            System.out.println("\n게시글이 존재하지 않습니다.");
+            System.out.println("\n\"" + searchCategory + "\" 해당 카테고리 검색 결과가 없습니다.");
 
             Container.meneList2();
         }
@@ -337,6 +358,74 @@ public class ArticleController {
 
             for (int i = 0; i < articles.size(); i++) {
                 Article article = articles.get(i);
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
+                postNum++;
+            }
+
+            Container.meneList2();
+        }
+    }
+    public void foodNamePost() {
+        System.out.println("\n검색하실 음식명을 입력해 주세요.");
+        String searchText = Container.getSc().nextLine().trim();
+
+        List<Article> articles = articleService.getArticleListAll();
+        List<Article> articlesResult = new ArrayList<>();
+
+        int postNum = 1;
+
+        for (int i = 0; i < articles.size(); i++) {
+            Article article = articles.get(i);
+            if (article.getFoodName().contains(searchText)) {
+                articlesResult.add(articles.get(i));
+            }
+        }
+
+        if (articlesResult.size() == 0) {
+            System.out.println("\n\"" + searchText + "\" 해당 검색 결과가 없습니다.");
+
+            Container.meneList2();
+        }
+        else {
+            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰 / 작성자");
+            System.out.println("=".repeat(70));
+
+            for (int i = 0; i < articlesResult.size(); i++) {
+                Article article = articlesResult.get(i);
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
+                postNum++;
+            }
+
+            Container.meneList2();
+        }
+    }
+    public void brandNamePost() {
+        System.out.println("\n검색하실 브랜드명을 입력해 주세요.");
+        String searchText = Container.getSc().nextLine().trim();
+
+        List<Article> articles = articleService.getArticleListAll();
+        List<Article> articlesResult = new ArrayList<>();
+
+        int postNum = 1;
+
+        for (int i = 0; i < articles.size(); i++) {
+            Article article = articles.get(i);
+            if (article.getBrandName().contains(searchText)) {
+                articlesResult.add(articles.get(i));
+            }
+        }
+
+        if (articlesResult.size() == 0) {
+            System.out.println("\n\"" + searchText + "\" 해당 검색 결과가 없습니다.");
+
+            Container.meneList2();
+        }
+        else {
+            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰 / 작성자");
+            System.out.println("=".repeat(70));
+
+            for (int i = 0; i < articlesResult.size(); i++) {
+                Article article = articlesResult.get(i);
                 System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
                 postNum++;
             }
