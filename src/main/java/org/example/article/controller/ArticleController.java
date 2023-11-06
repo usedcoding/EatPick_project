@@ -12,6 +12,19 @@ import java.util.List;
 
 public class ArticleController {
     ArticleService articleService = new ArticleService();
+    public void myPostList() {
+        List<Article> articles = articleService.getArticleListMy();
+
+        int postNum = 1;
+
+        Container.postTh1();
+
+        for (int i = 0; i < articles.size(); i++) {
+            Article article = articles.get(i);
+            System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getRegDate());
+            postNum++;
+        }
+    }
     public void write() {
         String category;
         String foodName;
@@ -101,20 +114,6 @@ public class ArticleController {
 
         Container.meneList2();
     }
-    public void myPostList() {
-        List<Article> articles = articleService.getArticleListMy();
-
-        int postNum = 1;
-
-        System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰");
-        System.out.println("=".repeat(70));
-
-        for (int i = 0; i < articles.size(); i++) {
-            Article article = articles.get(i);
-            System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview());
-            postNum++;
-        }
-    }
     public void modify() {
         List<Article> articles = articleService.getArticleListMy();
         Article article = null;
@@ -122,28 +121,25 @@ public class ArticleController {
 
         if (articles.size() == 0) {
             System.out.println("\n게시글이 존재하지 않습니다.");
-
             Container.meneList2();
-
             return;
         }
         else {
             myPostList();
 
             System.out.println("\n수정할 번호를 입력해 주세요.");
-            while (true) {
-                try {
-                    inputNum = Integer.parseInt(Container.getSc().nextLine().trim());
-                    if (inputNum > articles.size() || inputNum == 0) {
-                        System.out.println("\n입력 값에 해당하는 게시글이 존재하지 않습니다.");
-                        continue;
-                    }
+            try {
+                inputNum = Integer.parseInt(Container.getSc().nextLine().trim());
+                if (inputNum > articles.size() || inputNum == 0) {
+                    System.out.println("\n입력 값에 해당하는 게시글이 존재하지 않습니다.");
+                    Container.meneList2();
+                    return;
                 }
-                catch (Exception e) {
-                    System.out.println("\n입력 값은 정수로 입력할 수 있습니다.");
-                    continue;
-                }
-                break;
+            }
+            catch (Exception e) {
+                System.out.println("\n입력 값은 정수로 입력할 수 있습니다.");
+                Container.meneList2();
+                return;
             }
             article = articles.get(inputNum - 1);
         }
@@ -250,28 +246,25 @@ public class ArticleController {
 
         if (articles.size() == 0) {
             System.out.println("\n게시글이 존재하지 않습니다.");
-
             Container.meneList2();
-
             return;
         }
         else {
             myPostList();
 
             System.out.println("\n삭제할 번호를 입력해 주세요.");
-            while (true) {
-                try {
-                    inputNum = Integer.parseInt(Container.getSc().nextLine().trim());
-                    if (inputNum > articles.size() || inputNum == 0) {
-                        System.out.println("\n입력 값에 해당하는 게시글이 존재하지 않습니다.");
-                        continue;
-                    }
+            try {
+                inputNum = Integer.parseInt(Container.getSc().nextLine().trim());
+                if (inputNum > articles.size() || inputNum == 0) {
+                    System.out.println("\n입력 값에 해당하는 게시글이 존재하지 않습니다.");
+                    Container.meneList2();
+                    return;
                 }
-                catch (Exception e) {
-                    System.out.println("\n입력 값은 정수로 입력할 수 있습니다.");
-                    continue;
-                }
-                break;
+            }
+            catch (Exception e) {
+                System.out.println("\n입력 값은 정수로 입력할 수 있습니다.");
+                Container.meneList2();
+                return;
             }
             article = articles.get(inputNum - 1);
         }
@@ -307,12 +300,11 @@ public class ArticleController {
             Container.meneList2();
         }
         else {
-            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰 / 작성자");
-            System.out.println("=".repeat(70));
+            Container.postTh2();
 
             for (int i = 0; i < articles.size(); i++) {
                 Article article = articles.get(i);
-                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter(), article.getRegDate());
                 postNum++;
             }
 
@@ -353,12 +345,11 @@ public class ArticleController {
             Container.meneList2();
         }
         else {
-            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰 / 작성자");
-            System.out.println("=".repeat(70));
+            Container.postTh2();
 
             for (int i = 0; i < articles.size(); i++) {
                 Article article = articles.get(i);
-                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter(), article.getRegDate());
                 postNum++;
             }
 
@@ -387,12 +378,11 @@ public class ArticleController {
             Container.meneList2();
         }
         else {
-            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰 / 작성자");
-            System.out.println("=".repeat(70));
+            Container.postTh2();
 
             for (int i = 0; i < articlesResult.size(); i++) {
                 Article article = articlesResult.get(i);
-                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter(), article.getRegDate());
                 postNum++;
             }
 
@@ -421,12 +411,11 @@ public class ArticleController {
             Container.meneList2();
         }
         else {
-            System.out.println("\n번호 / 카테고리 / 음식명 / 브랜드명 / 가격 / 중량 / 별점 / 한 줄 리뷰 / 작성자");
-            System.out.println("=".repeat(70));
+            Container.postTh2();
 
             for (int i = 0; i < articlesResult.size(); i++) {
                 Article article = articlesResult.get(i);
-                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter());
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter(), article.getRegDate());
                 postNum++;
             }
 

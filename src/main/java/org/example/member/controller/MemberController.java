@@ -7,7 +7,6 @@ import org.example.util.Util;
 
 public class MemberController {
     MemberService memberService = new MemberService();
-
     public void login() {
         System.out.printf("\n닉네임 : ");
         String nickname = Container.getSc().nextLine().trim();
@@ -34,7 +33,6 @@ public class MemberController {
 
         Container.meneList2();
     }
-
     public void logout() {
         Container.setLoginedMember(null);
         System.out.println("\n로그아웃이 완료됐습니다.");

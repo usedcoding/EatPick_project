@@ -10,13 +10,9 @@ import java.util.Map;
 
 public class ArticleRepository {
     private DBConnection dbConnection;
-
     public ArticleRepository () {
         dbConnection = Container.getDBconnection();
     }
-
-    List<Article> articles = new ArrayList<>();
-
     public void write(String category, String foodName, String brandName, int price, int weight, int scope, String review, String writer) {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("INSERT INTO article "));
@@ -32,7 +28,6 @@ public class ArticleRepository {
 
         int id = dbConnection.insert(sb.toString());
     }
-
     public List<Article> getArticleListAll() {
         List<Article> articles = new ArrayList<>();
 
@@ -48,7 +43,6 @@ public class ArticleRepository {
 
         return articles;
     }
-
     public List<Article> getArticleListMy() {
         List<Article> articles = new ArrayList<>();
 
@@ -91,7 +85,6 @@ public class ArticleRepository {
 
         dbConnection.delete(sb.toString());
     }
-
     public void modify(Article article, String category, String foodName, String brandName, int price, int weight, int scope, String review) {
         int id = article.getId();
 
