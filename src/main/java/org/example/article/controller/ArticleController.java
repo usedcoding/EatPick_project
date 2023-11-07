@@ -422,4 +422,39 @@ public class ArticleController {
             Container.meneList2();
         }
     }
+
+
+    public void writerPost() {
+        System.out.print("검색하실 작성자명을 입력해 주세요.");
+        String searchWriter = Container.getSc().nextLine().trim();
+
+        List<Article> articles = articleService.getArticleListAll();
+        List<Article> articlesResult = new ArrayList<>();
+
+        int postNum = 1;
+
+        for (int i = 0; i < articles.size(); i++) {
+            Article article = articles.get(i);
+            if(article.getWriter().contains(searchWriter)) {
+                articlesResult.add(articles.get(i));
+            }
+        }
+
+        if (articlesResult.size() == 0) {
+            System.out.println("\n\"" + searchWriter + "\" 해당 검색 결과가 없습니다.");
+
+            Container.meneList2();
+        }
+        else {
+            Container.postTh2();
+
+            for (int i = 0; i < articlesResult.size(); i++) {
+                Article article = articlesResult.get(i);
+                System.out.printf("%d / %s / %s / %s / %d" + "원" + " / %d" + "g,ml" + " / %d" + "점" + " / %s / %s / %s\n", postNum, article.getCategory(), article.getFoodName(), article.getBrandName(), article.getPrice(), article.getWeight(), article.getScope(), article.getReview(), article.getWriter(), article.getRegDate());
+                postNum++;
+            }
+
+            Container.meneList2();
+        }
+    }
 }

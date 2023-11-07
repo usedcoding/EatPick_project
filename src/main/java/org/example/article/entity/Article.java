@@ -21,6 +21,7 @@ public class Article {
     private String writer;
     private String regDate;
 
+
     public Article (Map<String, Object> row) {
         this.id = (int)row.get("id");
         this.category = (String) row.get("category");
@@ -32,5 +33,6 @@ public class Article {
         this.review = (String) row.get("review");
         this.writer = (String) row.get("writer");
         this.regDate = (String)row.get("regDate");
+
     }
 }
