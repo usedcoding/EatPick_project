@@ -96,7 +96,7 @@ public class App {
                     case "11":
                         systemController.exit();
                         return;
-                        1
+
                 }
             }
         }
